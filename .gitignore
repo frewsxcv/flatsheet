@@ -2,6 +2,8 @@
 node_modules
 npm-debug.log
 tmp
-data/
-data/*
+data/db
+data/sheets
 !tests/data
+examples/dat/data/db
+examples/dat/data/sheets
