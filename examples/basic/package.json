@@ -1,0 +1,14 @@
+{
+  "name": "basic-flatsheet-example",
+  "description": "",
+  "version": "0.0.0",
+  "main": "server.js",
+  "scripts": {
+    "flatsheet": "flatsheet",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "response": "^0.14.0"
+  },
+  "devDependencies": {}
+}

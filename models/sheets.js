@@ -1,5 +1,6 @@
 var path = require('path');
-var level = require('level');
+var level = require('level-party');
+var sublevel = require('level-sublevel');
 var uuid = require('uuid').v1;
 var extend = require('extend');
 var dat = require('dat');
@@ -8,12 +9,14 @@ module.exports = Sheets;
 
 function Sheets (db, opts) {
   if (!(this instanceof Sheets)) return new Sheets(db, opts);
-  
+  opts || (opts = {});  
   this.path = opts.path || './data/sheets';
-    
-  this.db = db || level('./data/db', {
+  
+  console.log(this.path)
+  
+  this.db = sublevel(db).sublevel('sheets', {
     valueEncoding: 'json'
-  });
+  })
 }
 
 Sheets.prototype.put = 
