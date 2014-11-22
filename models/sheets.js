@@ -10,13 +10,11 @@ module.exports = Sheets;
 function Sheets (db, opts) {
   if (!(this instanceof Sheets)) return new Sheets(db, opts);
   opts || (opts = {});  
-  this.path = opts.path || './data/sheets';
-  
-  console.log(this.path)
+  this.path = opts.path || path.join(process.cwd(), 'data', 'sheets');
   
   this.db = sublevel(db).sublevel('sheets', {
     valueEncoding: 'json'
-  })
+  });
 }
 
 Sheets.prototype.put = 
@@ -39,25 +37,25 @@ Sheets.prototype.create = function (data, cb) {
         db.put(row);
       });
     });
-
   });
 };
 
 Sheets.prototype.get = 
 Sheets.prototype.fetch = function (key, cb) {
   var self = this;
-  this.db.get(key, function (err, res) {
+
+  this.db.get(key, function (err, res) {    
     res.rows = [];
-    var d = dat(res.path, function () {
-      d.createReadStream()
+    var datDB = dat(res.path, function (a, b, c) {
+      datDB.createReadStream()
         .on('data', function (data) {
           res.rows.push(data);
         })
         .on('end', function () {
+          datDB.close();
           cb(null, res);
         });
     });
-
   });
 };
 
@@ -102,11 +100,10 @@ Sheets.prototype.destroy = function (key, cb) {
   });
 };
 
+/*
 Sheets.prototype.listen = function () {
   this.db.createValueStream()
     .on('data', function (repo) {
-      repo.adminUser = 'pizza';
-      repo.adminPass = 'wat';
       var db = dat(repo.path, repo, function (err, wat) {
         if (err) throw err;
         db.listen(repo.port, function (err) {
@@ -115,3 +112,4 @@ Sheets.prototype.listen = function () {
       });
     }); 
 };
+*/

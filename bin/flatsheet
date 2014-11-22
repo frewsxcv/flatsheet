@@ -29,6 +29,7 @@ var sheets = new Sheets(db, { path: sheetsPath });
 
 if (cmd === 'account') return account();
 else if (cmd === 'sheet') return sheet();
+else notFound();
 
 function account () {
   if (sub === 'create-admin') {
@@ -64,13 +65,13 @@ function account () {
 
   }
 
-  if (sub === 'list') {
+  else if (sub === 'list') {
     var l = accounts.list();
     l.on('data', console.log);
     l.on('end', function () { db.close(); });
   }
 
-  if (sub === 'delete-all') {
+  else if (sub === 'delete-all') {
     accounts.list().pipe(through.obj(write, end));
 
     function write (account, enc, next) {
@@ -86,6 +87,8 @@ function account () {
       console.log('All accounts deleted.');
     }
   }
+  
+  else notFound();
 }
 
 function sheet () {
@@ -98,13 +101,13 @@ function sheet () {
     });
   }
 
-  if (sub === 'list') {
+  else if (sub === 'list') {
     var l = sheets.list();
     l.on('data', console.log);
     l.on('end', function () { db.close(); });
   }
 
-  if (sub === 'fix-ids') {
+  else if (sub === 'fix-ids') {
     sheets.list({ keys:true, values:true }, function (err, results) {
       results.forEach(function (sheet) {
         sheet.value.id = sheet.key;
@@ -115,7 +118,7 @@ function sheet () {
     });
   }
   
-  if (sub === 'delete-all') {
+  else if (sub === 'delete-all') {
     sheets.list({ keys:true, values:true }, function (err, results) {
       results.forEach(function (sheet) {
         sheets.destroy(sheet.key, function () {
@@ -126,10 +129,17 @@ function sheet () {
     });
   }
 
-  if (sub === 'delete') {
+  else if (sub === 'delete') {
     sheets.destroy(argv._[2], function () {
       console.log('sheet deleted.');
       db.close();
     });
   }
+  
+  else notFound();
+}
+
+function notFound () {
+  db.close();
+  console.log('Command not found');
 }

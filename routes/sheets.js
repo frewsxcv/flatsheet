@@ -23,7 +23,7 @@ exports.install = function (server, prefix) {
 
   server.route(prefix + '/edit/:id', function (req, res, opts) {
     if (auth(res, { prefix: prefix, id: opts.params.id })) {
-
+      
       server.sheets.fetch(opts.params.id, function (err, sheet) {
         if (err) {
           res.writeHead(302, { 'Location': '/' });
@@ -72,7 +72,7 @@ exports.install = function (server, prefix) {
       
     };
   });
-  
+
   server.route(prefix + '/destroy/:id', function (req, res, opts) {
     if (auth(res, { prefix: prefix, id: opts.params.id })) {
       server.sheets.destroy(opts.params.id, function (err) {

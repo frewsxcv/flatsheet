@@ -72,7 +72,7 @@ io.on('cell-blur', function (id) {
 });
 
 io.on('disconnect', function () {
-  console.log('disconnection.');
+  //console.log('disconnection.');
 });
 
 /* create the table editor */
@@ -105,6 +105,7 @@ var hello = document.getElementById('hello-message');
 
 /* request the sheet from the api */
 flatsheet.sheet(id, function (err, sheet) {
+  console.log(err, sheet)
   elClass(hello).add('hidden');
   editor.import(sheet.rows);
   sheetDetails.set(sheet);

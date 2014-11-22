@@ -41,7 +41,6 @@ exports.install = function (server, prefix) {
         
         jsonBody(req, res, function (err, body) {
           server.sheets.create(body, function (err, sheet) {
-            console.log('woooooooooooo', account, ok)
             if (err || !sheet) {
               var data = { message: 'Not found', statusCode: 404 };
               return response.json(data).status(404).pipe(res);

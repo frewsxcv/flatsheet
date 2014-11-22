@@ -1,6 +1,7 @@
 var fs = require('fs');
 var url = require('url');
 var http = require('http');
+var path = require('path');
 var st = require('st');
 var Router = require('routes-router');
 var response = require('response');
@@ -58,14 +59,17 @@ Handlebars.registerHelper('plus1', function(value, options) {
 * Main server constructor function
 */
 
-function Server (opts) {
-  if (!(this instanceof Server)) return new Server(opts);
+function Server (db, opts) {
+  if (!(this instanceof Server)) return new Server(db, opts);
   opts || (opts = {});
   
-  var envFile = fs.readFileSync((opts.dir || process.cwd()) + '/.env');
+  this.path = opts.path || process.cwd();
+    
+  var envFile = fs.readFileSync(path.join(this.path, '/.env'));
   var secrets = dotenv.parse(envFile);
 
   this.site = opts.site;
+
 
   /*
   * Set path for static files
@@ -73,20 +77,21 @@ function Server (opts) {
 
   this.staticFiles = opts.staticFiles || __dirname + '/public';
 
+
   /*
   * Create leveldb using level-sublevel
   */
 
-  this.db = level(opts.db || __dirname + '/data/db');
+  this.db = opts.db || level(path.join(this.path, 'data', 'db'));
 
 
   /*
   * Create sublevel for sheets
   */
 
-  this.sheets = Sheets(sublevel(this.db).sublevel('sheets', {
-    valueEncoding: 'json'
-  }));
+  this.sheets = Sheets(this.db, {
+    path: path.join(this.path, 'data', 'sheets')
+  });
 
 
   /*
@@ -103,9 +108,7 @@ function Server (opts) {
   */
 
   this.accounts = accountdown(this.db, {
-    login: { basic: require('accountdown-basic') },
-    keyEncoding: 'buffer',
-    valueEncoding: 'json'
+    login: { basic: require('accountdown-basic') }
   });
 
 

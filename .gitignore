@@ -5,5 +5,5 @@ tmp
 data/db
 data/sheets
 !tests/data
-examples/dat/data/db
-examples/dat/data/sheets
+examples/*/data/db
+examples/*/data/sheets

@@ -1,15 +1,20 @@
+var level = require('level-party');
 var response = require('response');
-var server = require('../../index')({
+
+var db = level('./data/db')
+
+var server = require('../../index')(db, {
+  path: __dirname,
   site: {
     title: 'flatsheet',
     email: 'hi@example.com',
     url: 'http://127.0.0.1:3333',
     contact: 'your full name'
-  },
-  db: __dirname + '/data/db'
+  }
 });
 
 server.route('/', function (req, res) {
+
   if (!res.account) {
     return response()
       .html(server.render('index', {

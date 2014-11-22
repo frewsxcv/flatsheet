@@ -1,12 +1,13 @@
+var path = require('path');
 var level = require('level');
-var Sheets = require('../models/sheets');
+var Sheets = require('../../models/sheets');
 
 var db = level('./data/db', {
   valueEncoding: 'json'
 });
 
 var sheets = new Sheets(db, {
-  path: __dirname + '/data/sheets'
+  path: path.join(process.cwd(), 'data', 'sheets')
 });
 
 var example1 = {
