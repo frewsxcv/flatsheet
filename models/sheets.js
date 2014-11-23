@@ -89,7 +89,18 @@ Sheets.prototype.update = function (key, data, cb) {
   var self = this;
   this.db.put(key, data, function (err) {
     if (err) return cb(err);
-    self.db.get(key, cb);
+    /*
+    var datDB = dat(res.path, function (a, b, c) {
+      datDB.createReadStream()
+        .on('data', function (data) {
+          res.rows.push(data);
+        })
+        .on('end', function () {
+          datDB.close();
+          cb(null, res);
+        });
+    });
+    */
   });
 };
 
@@ -100,16 +111,22 @@ Sheets.prototype.destroy = function (key, cb) {
   });
 };
 
-/*
-Sheets.prototype.listen = function () {
-  this.db.createValueStream()
-    .on('data', function (repo) {
-      var db = dat(repo.path, repo, function (err, wat) {
-        if (err) throw err;
-        db.listen(repo.port, function (err) {
-          if (err) console.error(err);
-        });
-      });
-    }); 
-};
-*/
+
+Sheets.prototype.getRow = function (sheetKey, rowKey, cb) {
+  
+}
+
+
+Sheets.prototype.addRow = function (sheetKey, row, cb) {
+  
+}
+
+
+Sheets.prototype.updateRow = function (sheetKey, rowKey, row, cb) {
+  
+}
+
+
+Sheets.prototype.destroyRow = function (sheetKey, rowKey, cb) {
+  
+}

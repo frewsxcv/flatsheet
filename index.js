@@ -41,8 +41,8 @@ Handlebars.registerPartial('layout', fs.readFileSync(__dirname + '/views/layout.
 *
 */
 
-Handlebars.registerHelper('json', function(context) {
-  return JSON.stringify(context);
+Handlebars.registerHelper('json', function(value) {
+  return JSON.stringify(value);
 });
 
 
@@ -50,9 +50,12 @@ Handlebars.registerHelper('json', function(context) {
 * Increment variable
 */
 
-Handlebars.registerHelper('plus1', function(value, options) {
-    return parseInt(value) + 1;
+Handlebars.registerHelper('plus1', function(value) {
+  return parseInt(value) + 1;
 });
+
+
+
 
 
 /*

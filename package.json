@@ -71,7 +71,7 @@
     "xhr": "^1.15.0"
   },
   "devDependencies": {
-    "brfs": "^1.1.1",
+    "brfs": "^1.2.0",
     "browserify": "^4.1.6",
     "clean-css": "^2.2.8",
     "gazer": "0.0.3",

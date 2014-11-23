@@ -6,10 +6,14 @@
         <span class="column-name"></span>
       </th>
       {{# columns:key }}
-        <th id={{ id }}>
-          <span class="column-name"><input value="{{ name }}"></span>
-          <button id="{{ id }}" class="destroy"><i class="fa fa-trash-o destroy-icon"></i></button>
-        </th>
+      
+      {{#unless name === 'key' || name === 'version' }}
+      <th id={{ id }}>
+        <span class="column-name"><input value="{{ name }}"></span>
+        <button id="{{ id }}" class="destroy"><i class="fa fa-trash-o destroy-icon"></i></button>
+      </th>
+      {{/unless}}
+
       {{/ columns }}
     </tr>
   </thead>
@@ -18,12 +22,20 @@
     <tr id="{{ i }}" decorator="sortable">
       <button class="delete-row destroy"><i class="fa fa-trash-o destroy-icon"></i></button>
       <td class='row-label'>{{i+1}}</td>
+      
       {{# this:value }}
+      
+      {{#unless columns[parseInt(value.substring(1))].name === 'key'}}
+      {{#unless columns[parseInt(value.substring(1))].name === 'version'}}
       <td id="row-{{ i }}-column-{{ value }}">
         <textarea value="{{ this }}" class="cell"></textarea>
         <a href="#" class="expand-editor"><i class="fa fa-edit"></i></a>
       </td>
+      {{/unless}}
+      {{/unless}}
+      
       {{/ . }}
+
     </tr>
     {{/ rows }}
   </tbody>
